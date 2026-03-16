@@ -1,29 +1,39 @@
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
-class PalindromeStack {
+class QueueStackPalindrome {
     public static void main(String[] args) {
         String word = "madam";
-        Stack<Character> stack = new Stack<>();
 
+        Queue<Character> queue = new LinkedList<>(); // FIFO
+        Stack<Character> stack = new Stack<>();       // LIFO
+
+        // 1. Enqueue & Push characters
         for (int i = 0; i < word.length(); i++) {
-            stack.push(word.charAt(i));
+            char c = word.charAt(i);
+            queue.add(c);
+            stack.push(c);
         }
 
         boolean isPalindrome = true;
 
-        for (int i = 0; i < word.length(); i++) {
+        // 2. Logical Comparison: Compare dequeue vs pop
+        while (!queue.isEmpty()) {
+            char fromQueue = queue.remove();
+            char fromStack = stack.pop();
 
-            if (word.charAt(i) != stack.pop()) {
+            if (fromQueue != fromStack) {
                 isPalindrome = false;
                 break;
             }
         }
 
-
+        // 3. Print Result
         if (isPalindrome) {
-            System.out.println(word + " is a Palindrome! ✅");
+            System.out.println("It's a Palindrome! 🚀 (FIFO matches LIFO)");
         } else {
-            System.out.println(word + " is not a Palindrome. ❌");
+            System.out.println("Not a Palindrome. ❌");
         }
     }
 }
