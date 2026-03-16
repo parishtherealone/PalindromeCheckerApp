@@ -1,66 +1,29 @@
-class Node {
-    char data;
-    Node next;
-    Node(char data) { this.data = data; }
-}
-
-class LinkedListPalindrome {
+class RecursionPalindrome {
     public static void main(String[] args) {
-        String word = "radar";
-        Node head = buildList(word);
+        String word = "kayak";
 
-        if (isPalindrome(head)) {
-            System.out.println("It's a Palindrome! 🔗");
+        // Initial call: start from index 0 and length-1
+        if (check(word, 0, word.length() - 1)) {
+            System.out.println(word + " is a Palindrome! 🔄");
         } else {
-            System.out.println("Not a Palindrome. ❌");
+            System.out.println(word + " is not a Palindrome. ❌");
         }
     }
 
-    public static boolean isPalindrome(Node head) {
-        if (head == null || head.next == null) return true;
-
-        // 1. Fast & Slow Pointer to find middle
-        Node slow = head;
-        Node fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
+    public static boolean check(String s, int start, int end) {
+        // 1. Base Condition: Agar pointers ek dusre ko cross kar gaye
+        if (start >= end) {
+            return true;
         }
 
-        // 2. Reverse the second half in-place
-        Node secondHalf = reverse(slow);
-        Node firstHalf = head;
-
-        // 3. Compare Halves
-        Node temp = secondHalf; // To keep track for comparison
-        while (temp != null) {
-            if (firstHalf.data != temp.data) return false;
-            firstHalf = firstHalf.next;
-            temp = temp.next;
+        // 2. Recursive Call & Comparison
+        // Pehle current characters check karo
+        if (s.charAt(start) == s.charAt(end)) {
+            // Agar match hua, toh andar waale characters ke liye firse call karo
+            return check(s, start + 1, end - 1);
         }
-        return true;
-    }
 
-    // In-place Reversal Logic
-    public static Node reverse(Node head) {
-        Node prev = null;
-        Node current = head;
-        while (current != null) {
-            Node nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
-        }
-        return prev;
-    }
-
-    public static Node buildList(String s) {
-        Node head = new Node(s.charAt(0));
-        Node current = head;
-        for (int i = 1; i < s.length(); i++) {
-            current.next = new Node(s.charAt(i));
-            current = current.next;
-        }
-        return head;
+        // Agar mismatch hua, toh seedha false
+        return false;
     }
 }
